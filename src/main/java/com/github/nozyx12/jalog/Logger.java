@@ -167,4 +167,17 @@ public class Logger {
     public void registerListener(LogListener listener) {
         this.listeners.add(listener);
     }
+
+    /**
+     * Returns the name of the logger.
+     * <p>
+     * The name is typically used to identify the logger in a logging system.
+     * It can be the name of the class or a custom string depending on the configuration.
+     * </p>
+     *
+     * @return the name of the logger, typically used to identify the logger.
+     */
+    public String getName() {
+        return this.name;
+    }
 }
