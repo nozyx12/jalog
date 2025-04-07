@@ -20,24 +20,28 @@ public class Logger {
     private final List<LogListener> listeners = new ArrayList<>();
 
     /**
-     * Creates a logger with a default log file named after the logger's name.
+     * Creates a logger without log file saving.
+     * <p>
+     * This constructor initializes a logger that only outputs to the console,
+     * without storing logs in a file.
      *
-     * @param name the name of the logger, also used as the name for the log file.
+     * @param name the name of the logger.
      */
     public Logger(String name) {
-        this.name = name;
-        this.logFile = new File(name + ".log");
+        this(name, null);
     }
 
     /**
      * Creates a logger with a specified log file.
      *
      * @param name the name of the logger.
-     * @param logFile the file where logs will be written.
+     * @param logFile the file where logs will be written. (Can be null if you don't want to save your logs into a file)
      */
     public Logger(String name, File logFile) {
         this.name = name;
         this.logFile = logFile;
+
+        SystemLogger.init();
     }
 
     /**
@@ -124,6 +128,8 @@ public class Logger {
         String toPrint = "[" + formattedDateTime + "] [" + this.name + "] " + content;
 
         System.out.println(toPrint);
+
+        if (logFile == null) return;
 
         if (!logFile.exists() || !logFile.isFile()) {
             try {
