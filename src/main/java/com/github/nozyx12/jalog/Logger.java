@@ -9,6 +9,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 /**
  * Logger is a simple logging utility that logs messages to both the console
  * and a specified log file. It supports multiple levels of logging such as
@@ -40,8 +42,6 @@ public class Logger {
     public Logger(String name, File logFile) {
         this.name = name;
         this.logFile = logFile;
-
-        SystemLogger.init();
     }
 
     /**
@@ -92,14 +92,7 @@ public class Logger {
      * @param cause the throwable whose stack trace will be logged.
      */
     public void stacktrace(Throwable cause) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        cause.printStackTrace(pw);
-
-        int lastNewLineIndex = sw.toString().lastIndexOf("\n");
-        String stackTrace = sw.toString().substring(0, lastNewLineIndex);
-
-        error("\n" + stackTrace);
+        print("[STACKTRACE]:\n" + ExceptionUtils.getStackTrace(cause));
     }
 
     /**
